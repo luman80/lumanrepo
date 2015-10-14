@@ -67,6 +67,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -143,8 +144,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\CpuInfoHub.cs" />
-    <Compile Include="Hubs\OverviewHub.cs" />
+    <Compile Include="Hubs\CpuOverviewHub.cs" />
+    <Compile Include="Hubs\DiskOverviewHub.cs" />
     <Compile Include="Hubs\RamInfoHub.cs" />
+    <Compile Include="Hubs\RamOverviewHub.cs" />
     <Compile Include="Models\Navbar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

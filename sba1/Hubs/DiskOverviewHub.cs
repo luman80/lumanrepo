@@ -8,20 +8,21 @@ using System.Threading;
 
 namespace sba1.Hubs
 {
-    public class OverviewHub : Hub
+    public class DiskOverviewHub : Hub
     {
-        private PerformanceCounter cpu = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+        private PerformanceCounter pc;
         private Timer timer;
 
         public void Init(int speed)
         {
-            cpu.NextValue();
+            pc = new PerformanceCounter("PhysicalDisk", "% Disk Time", "_Total");
+            pc.NextValue();
             timer = new Timer(OnTime, null, 0, speed);
         }
 
         private void OnTime(object state)
         {
-            Clients.All.report(cpu.NextValue());
+            Clients.All.report(Math.Round(pc.NextValue(), 2));
         }
     }
 }
