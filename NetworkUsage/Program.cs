@@ -31,38 +31,13 @@ namespace NetworkUsage
                 var pc = new PerformanceCounter("Network Adapter", "Bytes Total/sec", mo["Name"].ToString().Replace('(', '[').Replace(')', ']'));
                 pc.NextValue();
 
-                Console.WriteLine(5 + (float)Scales.Kb100);
                 while (true)
                 {
                     float origValue = pc.NextValue();
-                    float percent = 0; Scales axis;
-                    rechart(origValue, out percent, out axis);
-                    Console.WriteLine(pc.InstanceName + ":> " + origValue + " Bps. Axis: [{0},{1}]. Percentage: {2}", 0, axis, percent);
+                    Console.WriteLine(pc.InstanceName + ":> " + origValue + " Bps. Axis: [{0},{1}]. Percentage: {2}", 0, p.scale, percent);
                     Thread.Sleep(1000);
                 }
             }
-        }
-
-        static void rechart(float value, out float percentage, out Scales axis)
-        {
-            axis = 0;
-            if (value > (float) Scales.Mb100)
-            {
-                axis = Scales.Gb1;
-            }
-            else if (value > (float)Scales.Mb1 && value < (float)Scales.Mb100)
-            {
-                axis = Scales.Mb100;
-            }
-            else if (value > (float)Scales.Kb100 && value < (float)Scales.Mb1)
-            {
-                axis = Scales.Mb1;
-            }
-            else if (value < (float)Scales.Kb100)
-            {
-                axis = Scales.Kb100;
-            }
-            percentage = (value * 100) / (float)axis;
         }
     }
 }
