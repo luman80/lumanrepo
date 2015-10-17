@@ -2,6 +2,7 @@
     plotCpuOverview(50, 1000);
     plotRamOverview(50, 1000);
     plotDiskOverview(50, 1000);
+    plotNicOverview(50, 1000);
 });
 
 function blanks(size) {
@@ -32,7 +33,8 @@ function plotCpuOverview(plotSize, speed) {
                 show: true,
                 fill: true,
             },
-            shadowSize: 0
+            shadowSize: 0,
+            color: 'white'
         },
         legend: { show: false },
         xaxis: {
@@ -69,7 +71,8 @@ function plotRamOverview(plotSize, speed) {
                 show: true,
                 fill: true,
             },
-            shadowSize: 0
+            shadowSize: 0,
+            color: 'white'
         },
         legend: { show: false },
         xaxis: {
@@ -104,9 +107,10 @@ function plotDiskOverview(plotSize, speed) {
         series: {
             lines: {
                 show: true,
-                fill: true,
+                fill: true
             },
-            shadowSize: 0
+            shadowSize: 0,
+            color: 'white'
         },
         legend: { show: false },
         xaxis: {
@@ -128,6 +132,58 @@ function plotDiskOverview(plotSize, speed) {
         $("#diskOverview").text(ramPoint);
         ramData = addPoint(ramData, ramPoint);
         plot.setData([ramData]);
+        plot.draw();
+    }
+}
+
+function plotNicOverview(plotSize, speed) {
+    var container = $("#nicPlotOverview");
+    var nicData = blanks(plotSize);
+
+    var plot = $.plot(container, [nicData], {
+        grid: { borderWidth: 0 },
+        series: {
+            lines: {
+                show: true,
+                fill: true,
+            },
+            shadowSize: 0,
+            color: 'white'
+        },
+        legend: { show: false },
+        xaxis: {
+            show: false
+        },
+        yaxis: {
+            show: true,
+            min: 0,
+            tickColor: 'transparent',
+            font: { size: 0 },
+            tickFormatter: function (val, axis) {
+                if (val > 1000000)
+                    return (val / 1000000).toFixed(axis.tickDecimals) + " Mb";
+                else if (val > 1000)
+                    return (val / 1000).toFixed(axis.tickDecimals) + " Kb";
+                else
+                    return val.toFixed(axis.tickDecimals) + " b";
+            }
+        }
+    });
+
+    var hub = $.connection.nicOverviewHub;
+    $.connection.hub.start().done(function () {
+        hub.server.init(speed);
+    });
+
+    hub.client.report = function (nicPoint, max) {
+        $("#nicOverview").text(Math.round((nicPoint * 100) / max));
+
+        var ticks = plot.getAxes().yaxis.ticks;
+        $("#maxY").text(ticks[ticks.length - 1].label);
+
+        nicData = addPoint(nicData, nicPoint);
+        plot.setData([nicData]);
+        plot.setupGrid();
         plot.draw();
     }
 }

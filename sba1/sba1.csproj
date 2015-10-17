@@ -146,6 +146,7 @@
     <Compile Include="Hubs\CpuInfoHub.cs" />
     <Compile Include="Hubs\CpuOverviewHub.cs" />
     <Compile Include="Hubs\DiskOverviewHub.cs" />
+    <Compile Include="Hubs\NicOverviewHub.cs" />
     <Compile Include="Hubs\RamInfoHub.cs" />
     <Compile Include="Hubs\RamOverviewHub.cs" />
     <Compile Include="Models\Navbar.cs" />

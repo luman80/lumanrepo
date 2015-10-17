@@ -22,7 +22,7 @@ namespace sba1.Hubs
 
         private void OnTime(object state)
         {
-            Clients.All.report(Math.Round(pc.NextValue(), 2));
+            Clients.All.report(Math.Round(pc.NextValue()));
         }
     }
 }
