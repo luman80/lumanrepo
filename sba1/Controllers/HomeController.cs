@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,6 +29,7 @@ namespace sba1.Controllers
 
         public ActionResult Tables()
         {
+            ViewBag.Drives = DriveInfo.GetDrives();
             return View("Tables");
         }
 

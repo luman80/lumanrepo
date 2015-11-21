@@ -50,7 +50,12 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
         $(document).ready(function () {
-            $('#dataTables-example').DataTable({
+            $('#leftTable').DataTable({
+                responsive: true,
+                searching: false,
+                paging: false
+            });
+            $('#rightTable').DataTable({
                 responsive: true
             });
         });
